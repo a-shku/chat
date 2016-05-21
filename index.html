@@ -1,0 +1,60 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<link href="style.css" type="text/css" rel="stylesheet">
+</head>
+<body>
+
+
+<div id="regWrapper" class="modalWrap">
+	<form id="registration" class="modal">
+		<label>Name: <input id="userName"></label><br>
+		<label>Login: <input id="login"></label><br>
+		<button id='registrBtn'>Registration</button>
+	</form>
+</div>
+<div id="photoUploadWrapper" class="modalWrap none">
+	<div class="dnd" id="dnd">
+		<span id="dndText">Перетащите фото сюда или кликните для выбора файла</span>
+	</div>
+	<form class="modal">
+		<input id="photoInput" type="file">
+		<button id="sendPhoto" type="submit">Send photo</button>
+		<button id="cancel" type="submit">Cancel</button>
+	</form>
+	
+</div>
+<div id="chatWrap">
+	<aside id="side" class="sidebar">
+		<div id="you">
+			
+			<!--<img id="sidePhoto" src="http://localhost:5000/photos">-->
+		
+		</div>
+		<div id="usersCount"></div>
+		<ul id="divUserUl"></ul>
+	</aside>
+	<div class="rightbar">
+	<ul id="chat">
+	
+	</ul>
+	<form class="type">
+		
+		<button id="sendMess">Send</button><input id="messText" type="text" placeholder="type your message">
+	</form>
+	<!--<div class="photoinput">
+	<form>
+		<input id="photoInput" type="file">
+		<button id="sendPhoto" type="submit">Send a photo</button>
+	</form>
+	</div>-->
+	</div>
+</div>
+
+
+
+
+<script src="chat.js"></script>
+</body>
+</html>

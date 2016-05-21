@@ -1,0 +1,13 @@
+ {"op":"token","sourceOp":"reg","token":"e2e108cbcd38e72d6fa717eb796c4bbd875ab09718dbc2a41bdb33ce56499547e76f6ccd83fded5ef1a2ab193cef5907f7f6d2a3c28cb42e0fead9134da3ce06",
+ "messages":[
+ {"user":{"name":"ert","login":"tre"},"body":"gasre 34f sdfнвовен","time":1463079347374},
+ {"user":{"name":"ert","login":"tre"},"body":"gasre 34f sdfнвовен","time":1463079368114},
+ {"user":{"name":"ert","login":"tre"},"body":"gasre 34f sdfнвовен","time":1463079400155},
+ {"user":{"name":"ert","login":"tre"},"body":"gasre 34f sdfнвовен","time":1463079404669},
+ {"user":{"name":"ert","login":"tre"},"body":"gasre 34f sdfнвовен","time":1463079415227},
+ {"user":{"name":"ert","login":"tre"},"body":"gasre 34f sdfнвовен","time":1463079432491},
+ {"user":{"name":"ert","login":"tre"},"body":"gasre 34f sdfнвовен","time":1463079461562},
+ {"user":{"name":"123","login":"123"},"body":"aergfg ga arg","time":1463079612734},
+ {"user":{"name":"123","login":"123"},"body":"aergfg ga arg","time":1463079618608},
+ {"user":{"name":"123","login":"123"},"body":"aergfg ga arg","time":1463079621709}],
+ "users":[{"name":"123","login":"123"},{"name":"ert","login":"tre"}]}
