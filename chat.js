@@ -6,6 +6,11 @@ cancel.addEventListener('click', function(e){
 	dndText.classList.remove('none');
 	dnd.removeAttribute("style")
 });
+
+ function clearFileInputField(Id){
+	 document.getElementById(Id).innerHTML = document.getElementById(Id).innerHTML;
+    }
+
 new Promise(function(res, rej){registrBtn.addEventListener('click', function(e){
 	e.preventDefault();
 	socket = new WebSocket('ws://localhost:5000');
@@ -36,6 +41,11 @@ new Promise(function(res, rej){registrBtn.addEventListener('click', function(e){
 		 //соединение было закрыто
 		console.log(e);
 	};
+	
+	socket.onclose = function() {
+	console.log('Connection closed');
+}
+	
 });
 }).then(function(){
 	
@@ -45,7 +55,7 @@ new Promise(function(res, rej){registrBtn.addEventListener('click', function(e){
 	
 	var factoryUserList = function(users){
 		var userCount = document.createElement('div');
-		usersCount.innerHTML = '<p>В чате '+users.length+' пользователей</p>';
+		usersCount.innerHTML = '<p>'+users.length+' участников в чате</p>';
 		var userUl = document.createElement('ul');
 		
 		for(var i = 0; i<users.length; i++){
@@ -123,6 +133,7 @@ new Promise(function(res, rej){registrBtn.addEventListener('click', function(e){
 				factoryUserList(userArr);	
 			}
 			userL(regData.users);
+			chat.scrollTop = chat.scrollHeight;
 		}//if
 		
 		else if(response.op === 'user-enter'){
@@ -147,6 +158,7 @@ new Promise(function(res, rej){registrBtn.addEventListener('click', function(e){
 		
 		//get a sent message
 		else if(response.op === 'message'){
+			messText.value = '';
 			var Smess = response.body,
 				Suser = response.user;//obj Suser.name +  Suser.login
 
@@ -169,7 +181,8 @@ new Promise(function(res, rej){registrBtn.addEventListener('click', function(e){
 			messLi.innerHTML = '<img src="http://localhost:5000/photos/'+Suser.login+'?123" class="photo" data-user="'+Suser.login+'">'+'<p class="timeNname"><span class="messUserName">'+Suser.name+'</span><span class="time">'+hours+':'+minutes+':'+seconds+'</span></p>'+'<p class="message">'+Smess+'</p>';
 			/*add a message to list*/
 			chat.appendChild(messLi);
-			/*add a message to list*/	
+			/*add a message to list*/
+			chat.scrollTop = chat.scrollHeight;			
 		}
 		
 		//change a photo
@@ -196,6 +209,9 @@ new Promise(function(res, rej){registrBtn.addEventListener('click', function(e){
 				errorStr.classList.add('error');
 				errorStr.innerHTML = errorMess+'ed'+'!';
 				registration.appendChild(errorStr);
+				console.log('no');
+				socket.close();
+				return;
 			}
 		}
 		
@@ -241,7 +257,10 @@ new Promise(function(res, rej){registrBtn.addEventListener('click', function(e){
 			console.log('drop');
 			var file = e.dataTransfer.files[0];
 			//photoInput.files[0] = e.dataTransfer.files[0];
-			console.log(file);
+			
+			//clearFileInputField('photoForm');
+			photoForm.reset();
+			
 			dndText.classList.add('none');
 			fileReader.readAsDataURL(file);
 			
