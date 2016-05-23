@@ -35,6 +35,7 @@ html, body {
 	background-size: auto 160px;
 	background-repeat:  no-repeat;
 	background-position:  center;
+	cursor: pointer;
  }
  
  .modal{

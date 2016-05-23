@@ -9,7 +9,20 @@ cancel.addEventListener('click', function(e){
 
  function clearFileInputField(Id){
 	 document.getElementById(Id).innerHTML = document.getElementById(Id).innerHTML;
-    }
+    };
+	
+var errorToolTip = function(errorMess){
+	Array.from(errorBlock = document.querySelectorAll('.error')).forEach(function(elem){
+			elem.innerHTML = errorMess;
+	});
+};	
+
+var errorDel = function(){
+	Array.from(errorBlock = document.querySelectorAll('.error')).forEach(function(elem){
+			elem.innerHTML = '';
+			sendPhoto.removeAttribute('disabled');
+	});	
+};
 
 new Promise(function(res, rej){registrBtn.addEventListener('click', function(e){
 	e.preventDefault();
@@ -134,7 +147,7 @@ new Promise(function(res, rej){registrBtn.addEventListener('click', function(e){
 			}
 			userL(regData.users);
 			chat.scrollTop = chat.scrollHeight;
-		}//if
+		}
 		
 		else if(response.op === 'user-enter'){
 			userArr.push(response.user);
@@ -143,15 +156,11 @@ new Promise(function(res, rej){registrBtn.addEventListener('click', function(e){
 		}
 		
 		else if(response.op === 'user-out'){
-			//userArr.splice(0, 1);
-			
-			console.log(userArr.length);
 			for(var i = 0; i < userArr.length; i++){
 				if(userArr[i].login == response.user.login){
 					//console.log(userArr[i].login);
 					userArr.splice(userArr[i], 1);
-					}
-				
+				}
 			}
 			factoryUserList(userArr);
 		}
@@ -187,6 +196,7 @@ new Promise(function(res, rej){registrBtn.addEventListener('click', function(e){
 		
 		//change a photo
 		else if(response.op === 'user-change-photo'){
+			cancel.click();
 			var Suser = response.user;
 				var userChangePhotoLogin = response.user.login;
 				
@@ -205,10 +215,17 @@ new Promise(function(res, rej){registrBtn.addEventListener('click', function(e){
 			if(response.sourceOp === 'reg'){
 				//alert('reg');
 				var errorMess = response.error.message;
-				var errorStr = document.createElement('div');
+				
+				errorToolTip(errorMess);
+				/*Array.from(errorBlock = document.querySelectorAll('.error')).forEach(function(elem){
+					elem.innerHTML = errorMess;
+				});*/
+				
+				//error
+				/*var errorStr = document.createElement('div');
 				errorStr.classList.add('error');
 				errorStr.innerHTML = errorMess+'ed'+'!';
-				registration.appendChild(errorStr);
+				registration.appendChild(errorStr);*/
 				console.log('no');
 				socket.close();
 				return;
@@ -217,7 +234,6 @@ new Promise(function(res, rej){registrBtn.addEventListener('click', function(e){
 		
 		
 		/*загрузка фото*/
-		
 		sidePhoto.onclick = function(){
 			photoUploadWrapper.classList.remove('none');
 		};
@@ -243,15 +259,23 @@ new Promise(function(res, rej){registrBtn.addEventListener('click', function(e){
 				photoInput.addEventListener('change', function(e) {
 					console.log('change');
 					var file = e.target.files[0];
-
+					console.log(file.size);
+					
 					fileReader.readAsDataURL(file);
 					
 					//dnd.innerText = '';
 					dndText.classList.add('none');
+					if((file.size/1024) > 512){
+						errorToolTip('Превышен допустимый размер файла');
+						sendPhoto.setAttribute('disabled', 'disabled');
+					}else{
+						errorDel();
+					}
 				});
 			//*filereader*/
 
 		dnd.addEventListener('drop', function(e){
+			
 			e.preventDefault();
 			e.stopPropagation();
 			console.log('drop');
@@ -324,7 +348,6 @@ new Promise(function(res, rej){registrBtn.addEventListener('click', function(e){
 		cancel.click();*/
 	});
 	/*/sending a photo*/
-	/*вынести xhr в отдельную функцию и вызывать отдельно в инпуте и в драгндроп*/
 	/*xhr*/
 	function xhrFunc(data){
 		var xhr = new XMLHttpRequest();
@@ -333,14 +356,27 @@ new Promise(function(res, rej){registrBtn.addEventListener('click', function(e){
 		
 		xhr.onload = function(){
 						console.log(xhr.response);
+						var wet = JSON.parse(xhr.response);
+						console.log(wet);
+						console.log(wet.error);
+						if(wet.error){
+							/*console.log(wet.error.message);
+							var err = document.createElement('span');
+							err.innerHTML = wet.error.message;
+							dnd.removeAttribute("style");
+							dnd.appendChild(err);*/
+							errorToolTip(wet.error.message);
+						} else{
+							errorDel();
+						}
 						//clear the input!
 					};
 		 xhr.onreadystatechange = function(){
 			console.log(xhr.status);
 		 };		
-		cancel.click();
+		//cancel.click();
 	};
-	/*xhr*/
+	/*/xhr*/
 });
 
 
